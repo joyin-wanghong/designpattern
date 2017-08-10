@@ -22,6 +22,10 @@ import factorypattern.normalpattern.SendFactory;
 import factorypattern.normalpattern.Sender;
 import junit.framework.TestCase;
 import singlepattern.SingletonPattern;
+import structuraltype.wrapperpattern.Bird;
+import structuraltype.wrapperpattern.Fish;
+import structuraltype.wrapperpattern.Monkey;
+import structuraltype.wrapperpattern.TheGreatestSage;
 
 public class TestApp extends TestCase {
 	//////////////////////////////////////////////////// 【工厂模式】//////////////////////////////////////////////////////////////////
@@ -68,43 +72,56 @@ public class TestApp extends TestCase {
 		ExportFile ef = exportFactory.factory("financial");
 		ef.export(data);
 	}
-	
+
 	/**
 	 * 测试建造者模式
 	 */
 	public void builderPattern() {
 		Builder builder = new WelcomeBuilder();
-	    Director director = new Director(builder);
-	    director.construct("toAddress@126.com", "fromAddress@126.com");
+		Director director = new Director(builder);
+		director.construct("toAddress@126.com", "fromAddress@126.com");
 	}
-	
+
 	/**
 	 * 测试访问者模式
 	 */
 	public void TestVisitorPattern() {
-		 //创建一个结构对象
-        ObjectStructure os = new ObjectStructure();
-        //给结构增加一个节点
-        os.add(new NodeA());
-        //给结构增加一个节点
-        os.add(new NodeB());
-        //创建一个访问者
-        Visitor visitor = new VisitorA();
-        os.action(visitor);
+		// 创建一个结构对象
+		ObjectStructure os = new ObjectStructure();
+		// 给结构增加一个节点
+		os.add(new NodeA());
+		// 给结构增加一个节点
+		os.add(new NodeB());
+		// 创建一个访问者
+		Visitor visitor = new VisitorA();
+		os.action(visitor);
 	}
 
 	/**
 	 * 测试观察者模式
 	 */
 	public void TestObserverPattern() {
-		 //创建主题对象
-        ConcreteSubject subject = new ConcreteSubject();
-        //创建观察者对象
-        Observer observer = new ConcreteObserver();
-        //将观察者对象登记到主题对象上
-        subject.attach(observer);
-        //改变主题对象的状态
-        subject.change("new state");
+		// 创建主题对象
+		ConcreteSubject subject = new ConcreteSubject();
+		// 创建观察者对象
+		Observer observer = new ConcreteObserver();
+		// 将观察者对象登记到主题对象上
+		subject.attach(observer);
+		// 改变主题对象的状态
+		subject.change("new state");
 	}
-	
+
+	/**
+	 * 测试装饰模式（或叫包装模式）
+	 */
+	public void TestWrapperPattern() {
+		TheGreatestSage sage = new Monkey();
+		// 第一种写法
+		TheGreatestSage bird = new Bird(sage);
+		TheGreatestSage fish = new Fish(bird);
+		// 第二种写法
+		// TheGreatestSage fish = new Fish(new Bird(sage));
+		fish.move();
+	}
+
 }
