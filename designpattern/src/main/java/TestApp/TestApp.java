@@ -2,6 +2,12 @@ package TestApp;
 
 import java.util.Vector;
 
+import behavetype.commandpattern.AudioPlayer;
+import behavetype.commandpattern.Command;
+import behavetype.commandpattern.Keypad;
+import behavetype.commandpattern.PlayCommand;
+import behavetype.commandpattern.RewindCommand;
+import behavetype.commandpattern.StopCommand;
 import behavetype.dutychainpattern.DeptManager;
 import behavetype.dutychainpattern.GeneralManager;
 import behavetype.dutychainpattern.Handler;
@@ -128,6 +134,9 @@ public class TestApp extends TestCase {
 		fish.move();
 	}
 	
+	/**
+	 * 测试责任链模式
+	 */
 	public void TestDutychainPattern() {
 		//先要组装责任链
         Handler h1 = new GeneralManager();
@@ -139,20 +148,36 @@ public class TestApp extends TestCase {
         //开始测试
         String test1 = h3.handleFeeRequest("张三", 300);
         System.out.println("test1 = " + test1);
-        String test2 = h3.handleFeeRequest("李四", 300);
-        System.out.println("test2 = " + test2);
         System.out.println("---------------------------------------");
         
         String test3 = h3.handleFeeRequest("张三", 700);
         System.out.println("test3 = " + test3);
-        String test4 = h3.handleFeeRequest("李四", 700);
-        System.out.println("test4 = " + test4);
         System.out.println("---------------------------------------");
         
         String test5 = h3.handleFeeRequest("张三", 1500);
         System.out.println("test5 = " + test5);
-        String test6 = h3.handleFeeRequest("李四", 1500);
-        System.out.println("test6 = " + test6);
+	}
+	/**
+	 * 测试命令模式
+	 */
+	public void TestCommandPattern() {
+		//创建接收者对象
+        AudioPlayer audioPlayer = new AudioPlayer();
+        //创建命令对象
+        Command playCommand = new PlayCommand(audioPlayer);
+        Command rewindCommand = new RewindCommand(audioPlayer);
+        Command stopCommand = new StopCommand(audioPlayer);
+        //创建请求者对象
+        Keypad keypad = new Keypad();
+        keypad.setPlayCommand(playCommand);
+        keypad.setRewindCommand(rewindCommand);
+        keypad.setStopCommand(stopCommand);
+        //测试
+        keypad.play();
+        keypad.rewind();
+        keypad.stop();
+        keypad.play();
+        keypad.stop();
 	}
 
 }
