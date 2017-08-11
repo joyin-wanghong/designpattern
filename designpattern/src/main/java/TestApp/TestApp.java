@@ -20,6 +20,11 @@ import behavetype.interpreterpattern.Not;
 import behavetype.interpreterpattern.Or;
 import behavetype.interpreterpattern.Variable;
 import behavetype.iteratorpattern.Client;
+import behavetype.mediatorpattern.AbstractColleague;
+import behavetype.mediatorpattern.AbstractMediator;
+import behavetype.mediatorpattern.ColleagueA;
+import behavetype.mediatorpattern.ColleagueB;
+import behavetype.mediatorpattern.Mediator;
 import behavetype.observerpattern.ConcreteObserver;
 import behavetype.observerpattern.ConcreteSubject;
 import behavetype.observerpattern.Observer;
@@ -199,18 +204,39 @@ public class TestApp extends TestCase {
 		Constant c = new Constant(true);
 		ctx.assign(x, false);
 		ctx.assign(y, true);
-		Expression exp = new Or(new And(c, x), new And(y,new Not(x)));
+		Expression exp = new Or(new And(c, x), new And(y, new Not(x)));
 		System.out.println("x=" + x.interpret(ctx));
 		System.out.println("y=" + y.interpret(ctx));
 		System.out.println(exp.toString() + "=" + exp.interpret(ctx));
 	}
-	
+
 	/**
 	 * 测式迭代子模式
 	 */
 	public void TestInterpretePattern() {
 		Client client = new Client();
 		client.operation();
+	}
+
+	/**
+	 * 测试中介者模式
+	 */
+	public void TestMediatorPattern() {
+		
+		AbstractColleague collA = new ColleagueA();
+		AbstractColleague collB = new ColleagueB();
+
+		AbstractMediator am = new Mediator(collA, collB);
+
+		System.out.println("==========通过设置A影响B==========");
+		collA.setNumber(1000, am);
+		System.out.println("collA的number值为：" + collA.getNumber());
+		System.out.println("collB的number值为A的10倍：" + collB.getNumber());
+
+		System.out.println("==========通过设置B影响A==========");
+		collB.setNumber(1000, am);
+		System.out.println("collB的number值为：" + collB.getNumber());
+		System.out.println("collA的number值为B的0.1倍：" + collA.getNumber());
 	}
 
 }
