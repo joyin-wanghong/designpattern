@@ -12,6 +12,13 @@ import behavetype.dutychainpattern.DeptManager;
 import behavetype.dutychainpattern.GeneralManager;
 import behavetype.dutychainpattern.Handler;
 import behavetype.dutychainpattern.ProjectManager;
+import behavetype.interpreterpattern.And;
+import behavetype.interpreterpattern.Constant;
+import behavetype.interpreterpattern.Context;
+import behavetype.interpreterpattern.Expression;
+import behavetype.interpreterpattern.Not;
+import behavetype.interpreterpattern.Or;
+import behavetype.interpreterpattern.Variable;
 import behavetype.observerpattern.ConcreteObserver;
 import behavetype.observerpattern.ConcreteSubject;
 import behavetype.observerpattern.Observer;
@@ -133,51 +140,68 @@ public class TestApp extends TestCase {
 		// TheGreatestSage fish = new Fish(new Bird(sage));
 		fish.move();
 	}
-	
+
 	/**
 	 * 测试责任链模式
 	 */
 	public void TestDutychainPattern() {
-		//先要组装责任链
-        Handler h1 = new GeneralManager();
-        Handler h2 = new DeptManager();
-        Handler h3 = new ProjectManager();
-        h3.setSuccessor(h2);
-        h2.setSuccessor(h1);
-        
-        //开始测试
-        String test1 = h3.handleFeeRequest("张三", 300);
-        System.out.println("test1 = " + test1);
-        System.out.println("---------------------------------------");
-        
-        String test3 = h3.handleFeeRequest("张三", 700);
-        System.out.println("test3 = " + test3);
-        System.out.println("---------------------------------------");
-        
-        String test5 = h3.handleFeeRequest("张三", 1500);
-        System.out.println("test5 = " + test5);
+		// 先要组装责任链
+		Handler h1 = new GeneralManager();
+		Handler h2 = new DeptManager();
+		Handler h3 = new ProjectManager();
+		h3.setSuccessor(h2);
+		h2.setSuccessor(h1);
+
+		// 开始测试
+		String test1 = h3.handleFeeRequest("张三", 300);
+		System.out.println("test1 = " + test1);
+		System.out.println("---------------------------------------");
+
+		String test3 = h3.handleFeeRequest("张三", 700);
+		System.out.println("test3 = " + test3);
+		System.out.println("---------------------------------------");
+
+		String test5 = h3.handleFeeRequest("张三", 1500);
+		System.out.println("test5 = " + test5);
 	}
+
 	/**
 	 * 测试命令模式
 	 */
 	public void TestCommandPattern() {
-		//创建接收者对象
-        AudioPlayer audioPlayer = new AudioPlayer();
-        //创建命令对象
-        Command playCommand = new PlayCommand(audioPlayer);
-        Command rewindCommand = new RewindCommand(audioPlayer);
-        Command stopCommand = new StopCommand(audioPlayer);
-        //创建请求者对象
-        Keypad keypad = new Keypad();
-        keypad.setPlayCommand(playCommand);
-        keypad.setRewindCommand(rewindCommand);
-        keypad.setStopCommand(stopCommand);
-        //测试
-        keypad.play();
-        keypad.rewind();
-        keypad.stop();
-        keypad.play();
-        keypad.stop();
+		// 创建接收者对象
+		AudioPlayer audioPlayer = new AudioPlayer();
+		// 创建命令对象
+		Command playCommand = new PlayCommand(audioPlayer);
+		Command rewindCommand = new RewindCommand(audioPlayer);
+		Command stopCommand = new StopCommand(audioPlayer);
+		// 创建请求者对象
+		Keypad keypad = new Keypad();
+		keypad.setPlayCommand(playCommand);
+		keypad.setRewindCommand(rewindCommand);
+		keypad.setStopCommand(stopCommand);
+		// 测试
+		keypad.play();
+		keypad.rewind();
+		keypad.stop();
+		keypad.play();
+		keypad.stop();
+	}
+
+	/**
+	 * 测试解析器模式
+	 */
+	public void TestIntepreterPattern() {
+		Context ctx = new Context();
+		Variable x = new Variable("x");
+		Variable y = new Variable("y");
+		Constant c = new Constant(true);
+		ctx.assign(x, false);
+		ctx.assign(y, true);
+		Expression exp = new Or(new And(c, x), new And(y,new Not(x)));
+		System.out.println("x=" + x.interpret(ctx));
+		System.out.println("y=" + y.interpret(ctx));
+		System.out.println(exp.toString() + "=" + exp.interpret(ctx));
 	}
 
 }
