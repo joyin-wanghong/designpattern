@@ -19,6 +19,7 @@ import behavetype.interpreterpattern.Expression;
 import behavetype.interpreterpattern.Not;
 import behavetype.interpreterpattern.Or;
 import behavetype.interpreterpattern.Variable;
+import behavetype.iteratorpattern.Client;
 import behavetype.observerpattern.ConcreteObserver;
 import behavetype.observerpattern.ConcreteSubject;
 import behavetype.observerpattern.Observer;
@@ -202,6 +203,14 @@ public class TestApp extends TestCase {
 		System.out.println("x=" + x.interpret(ctx));
 		System.out.println("y=" + y.interpret(ctx));
 		System.out.println(exp.toString() + "=" + exp.interpret(ctx));
+	}
+	
+	/**
+	 * 测式迭代子模式
+	 */
+	public void TestInterpretePattern() {
+		Client client = new Client();
+		client.operation();
 	}
 
 }
