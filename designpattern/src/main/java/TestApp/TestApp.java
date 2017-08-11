@@ -25,9 +25,16 @@ import behavetype.mediatorpattern.AbstractMediator;
 import behavetype.mediatorpattern.ColleagueA;
 import behavetype.mediatorpattern.ColleagueB;
 import behavetype.mediatorpattern.Mediator;
+import behavetype.mementopattern.Caretaker;
+import behavetype.mementopattern.Originator;
 import behavetype.observerpattern.ConcreteObserver;
 import behavetype.observerpattern.ConcreteSubject;
 import behavetype.observerpattern.Observer;
+import behavetype.statepattern.ConcreteStateB;
+import behavetype.statepattern.State;
+import behavetype.strategy.AdvancedMemberStrategy;
+import behavetype.strategy.MemberStrategy;
+import behavetype.strategy.Price;
 import behavetype.visitorpattern.NodeA;
 import behavetype.visitorpattern.NodeB;
 import behavetype.visitorpattern.ObjectStructure;
@@ -222,7 +229,7 @@ public class TestApp extends TestCase {
 	 * 测试中介者模式
 	 */
 	public void TestMediatorPattern() {
-		
+
 		AbstractColleague collA = new ColleagueA();
 		AbstractColleague collB = new ColleagueB();
 
@@ -237,6 +244,57 @@ public class TestApp extends TestCase {
 		collB.setNumber(1000, am);
 		System.out.println("collB的number值为：" + collB.getNumber());
 		System.out.println("collA的number值为B的0.1倍：" + collA.getNumber());
+	}
+
+	/**
+	 * 测试备忘录模式
+	 */
+	public void testMementopattern() {
+		Originator o = new Originator();
+		Caretaker c = new Caretaker();
+		// 改变负责人对象的状态
+		o.setState("On");
+		// 创建备忘录对象，并将发起人对象的状态储存起来
+		c.saveMemento(o.createMemento());
+		// 修改发起人的状态
+		o.setState("Off");
+		// 恢复发起人对象的状态
+		o.restoreMemento(c.retrieveMemento());
+		System.out.println(o.getState());
+	}
+	
+	/**
+	 * 测试状态模式
+	 *@author 汪宏
+	 *@date 2017年8月11日 下午4:31:24 
+	 *@comment
+	 */
+	public void testStatePattern() {
+		//创建状态
+		State state = new ConcreteStateB();
+		//创建环境
+		behavetype.statepattern.Context context = new behavetype.statepattern.Context();
+		//将状态设置到环境中
+		context.setState(state);
+		//请求
+		context.request("test");
+	}
+	
+	
+	/**
+	 * 测试策略模式
+	 *@author 汪宏
+	 *@date 2017年8月11日 下午5:03:21 
+	 *@comment
+	 */
+	public void testStrategyPattern() {
+		//选择并创建需要使用的策略对象
+        MemberStrategy strategy = new AdvancedMemberStrategy();
+        //创建环境
+        Price price = new Price(strategy);
+        //计算价格
+        double quote = price.quote(300);
+        System.out.println("图书的最终价格为：" + quote);
 	}
 
 }
