@@ -51,7 +51,7 @@ import factorypattern.factorymethod.ExportHtmlFactory;
 import factorypattern.normalpattern.SendFactory;
 import factorypattern.normalpattern.Sender;
 import junit.framework.TestCase;
-import singlepattern.SingletonPattern;
+import factorypattern.singlepattern.SingletonPattern;
 import structuraltype.wrapperpattern.Bird;
 import structuraltype.wrapperpattern.Fish;
 import structuraltype.wrapperpattern.Monkey;
