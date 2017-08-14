@@ -52,6 +52,7 @@ import factorypattern.normalpattern.SendFactory;
 import factorypattern.normalpattern.Sender;
 import junit.framework.TestCase;
 import factorypattern.singlepattern.SingletonPattern;
+import structuraltype.adapterpattern.classadaperpattern.Adapter;
 import structuraltype.wrapperpattern.Bird;
 import structuraltype.wrapperpattern.Fish;
 import structuraltype.wrapperpattern.Monkey;
@@ -295,6 +296,32 @@ public class TestApp extends TestCase {
         //计算价格
         double quote = price.quote(300);
         System.out.println("图书的最终价格为：" + quote);
+	}
+	
+	/**
+	 * 测试类适配器模式
+	 *@author 汪宏
+	 *@date 2017年8月14日 上午10:13:38 
+	 *@comment
+	 */
+	public void testClassAdaperPattern() {
+		Adapter adapter = new Adapter();
+		//本来Adaptee 是没有 sampleOperation2 功能的，通过继承的实现使 adapter 具有sampleOperation2的接口功能。
+		adapter.sampleOperation1();
+		adapter.sampleOperation2();
+	}
+	
+	/**
+	 * 测试对像的适配器模式
+	 *@author 汪宏
+	 *@date 2017年8月14日 上午10:20:24 
+	 *@comment
+	 */
+	public void testObjectAdaperPattern() {
+		Adapter adapter = new Adapter();
+		//通过委派的形式使adapter 具有 sampleOperation2 功能
+		adapter.sampleOperation1();
+		adapter.sampleOperation2();
 	}
 
 }
